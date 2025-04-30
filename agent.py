@@ -750,21 +750,18 @@ def main():
         with open(args.summary, 'r') as file:
             summary = file.read().strip()
     
-    description = f"""
-        You are the best in the world application security engineer which is doing top notch security code audits.        
+    system = f"""
+        Your goal is to thoroughly review code changes for security vulnerabilities.
     """
     if args.summary:
-        description += f"Here is your brief technical architecture summary of the system you are working on: {summary}"
+        system += f"Here is your brief technical architecture summary of the system you are working on: {summary}"
 
     security_reviewer = Agent(
-        name="senior application security engineer",
-        role="review the code changes in the pull requests for security issues",
-        model=Gemini(id="gemini-2.5-pro-preview-03-25"),
+        name="code reviewer", 
+        role="You are the best in the world application security engineer which is doing top notch security code audits. Be concise and professional",
+        model=Gemini(id="gemini-2.5-pro-preview-03-25", system_prompt=system),
         markdown=True,
-        description=description,
         instructions="""
-        You are a senior application security engineer.
-        Your task is to thoroughly review code changes for security vulnerabilities.
         Analyze each file change carefully, looking for:
         - Injection vulnerabilities (SQL, command, etc.)
         - Authentication/authorization issues
@@ -808,6 +805,7 @@ def main():
 
         {Optional string 'NO MAJOR SECURITY CONCERNS FOUND'}
         """,
+        debug_mode=args.debug
     )
 
     review_prompt = """        
