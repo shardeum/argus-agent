@@ -1,5 +1,9 @@
 # Argus - helps you to run security code review with LLM
 
+Argus provides two main tools for security code review:
+
+## agent.py - Pull Request Security Reviewer
+
 ```
 usage: agent.py [-h] [--pull-request PULL_REQUESTS] [--slack-channel SLACK_CHANNEL] [--summary SUMMARY] [--linear-ticket LINEAR_TICKET] [--debug]
                 [--open-vs-code]
@@ -24,4 +28,30 @@ options:
       LINEAR_API_KEY - Linear API token (optional)
       
     Note: Token environment variables are required for API access.
+```
+
+## commit.py - Single Commit Security Analyzer
+
+```
+usage: commit.py [-h] [--summary SUMMARY] [--debug] [--output OUTPUT] commit_url
+
+Argus commit security analyzer - analyzes a single Git commit for security vulnerabilities
+
+positional arguments:
+  commit_url       URL to the GitHub commit (e.g., https://github.com/owner/repo/commit/hash)
+
+options:
+  -h, --help       show this help message and exit
+  --summary SUMMARY
+                   Path to file with project summary for additional context
+  --debug          Enable debug mode for LLM interactions
+  --output OUTPUT  Path to save the security report (if not specified, prints to console)
+
+    Environment variables:
+      GITHUB_ACCESS_TOKEN - Your GitHub API token (required)
+      
+    Example usage:
+      python commit.py https://github.com/owner/repo/commit/abc123
+      python commit.py https://github.com/owner/repo/commit/abc123 --summary project_summary.txt
+      python commit.py https://github.com/owner/repo/commit/abc123 --output report.md
 ```
