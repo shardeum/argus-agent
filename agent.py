@@ -1,4 +1,8 @@
 import os
+import warnings
+# Suppress urllib3 SSL warning
+warnings.filterwarnings('ignore', message='urllib3 v2 only supports OpenSSL')
+
 import requests
 import json
 import base64
