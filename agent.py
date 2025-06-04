@@ -424,7 +424,7 @@ def get_github_pull_request(pr_url: str) -> str:
 
     if response.status_code != 200:
         print(f"Failed to get PR files: {response.status_code} - {response.text}")
-        return "Failed to fetch PR files"    
+        return "Failed to get PR files", None    
 
     pr = response.json()
 
@@ -435,7 +435,7 @@ def get_github_pull_request(pr_url: str) -> str:
 
     if response.status_code != 200:
         print(f"Failed to get PR files: {response.status_code} - {response.text}")
-        return "Failed to fetch PR files"
+        return "Failed to fetch PR files", None
     
     result_parts = []
     
